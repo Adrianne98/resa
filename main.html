@@ -1,0 +1,75 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Services</title>
+  <script src="assets/app.js"></script>
+  <style>
+    body{font-family:Arial;margin:20px}
+    .row{display:flex;gap:12px;margin-bottom:8px}
+    .card{border:1px solid #aaa;padding:10px;border-radius:6px}
+    .btn{padding:6px 8px;border:1px solid #222;background:#f2f2f2;cursor:pointer}
+    .danger{background:#ffd0d0}
+  </style>
+</head>
+<body>
+
+<h1>Cas d'étude – Application de gestion de services</h1>
+
+<div class="row card">
+  <form method="post">
+    <label>Votre email (login bricolé): <input name="mail" value="<?php echo htmlspecialchars($CURRENT_EMAIL??''); ?>"></label>
+    <button class="btn">Se connecter</button>
+  </form>
+  <div>Rôle: <b><?php echo role(); ?></b></div>
+</div>
+
+<div class="row">
+  <div class="card" style="flex:1">
+    <h3>Services</h3>
+    <div id="svc"></div>
+  </div>
+  <div class="card" style="flex:1">
+    <h3>Réserver</h3>
+    <form method="post">
+      <input type="hidden" name="act" value="book">
+      <label>Service ID: <input name="sid" value="1"></label><br>
+      <label>Crenau: <input name="slot" placeholder="2025-10-20 09:00"></label><br>
+      <button class="btn">Réserver</button>
+    </form>
+  </div>
+  <div class="card" style="flex:1">
+    <h3>Mes réservations</h3>
+    <div id="bk"></div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Admin (pas sécurisé)</h3>
+  <form method="post" class="row">
+    <input type="hidden" name="act" value="addservice">
+    <input name="name" placeholder="Nom du service">
+    <select name="type"><option>room</option><option>equipment</option><option>autre</option></select>
+    <button class="btn">Ajouter service</button>
+  </form>
+
+  <form method="post" class="row">
+    <input type="hidden" name="act" value="addslot">
+    <input name="sid" placeholder="Service ID">
+    <input name="slot" placeholder="YYYY-MM-DD HH:MM">
+    <button class="btn">Ajouter créneau</button>
+  </form>
+
+  <form method="post" class="row">
+    <input type="hidden" name="act" value="cancel">
+    <input name="bid" placeholder="Booking ID">
+    <button class="btn danger">Annuler réservation</button>
+  </form>
+</div>
+
+<script>
+  window.addEventListener('load', function(){
+    window.refreshData(); 
+  });
+</script>
+</body>
+</html>
