@@ -1,4 +1,4 @@
-{
+module.exports = {
   "services": [
     {
       "id": 1,
@@ -31,4 +31,4 @@
     }
   ],
   "bookings": []
-}
+};
