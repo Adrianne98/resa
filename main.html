@@ -1,69 +1,74 @@
+<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Services</title>
-  <script src="assets/app.js"></script>
-  <include src="style.css"></include>
+<meta charset="utf-8">
+<title>Services</title>
+<link rel="stylesheet" href="style.css">
+<script src="assets/app.js"></script>
 </head>
 <body>
 
-<h1>Cas d'étude – Application de gestion de services</h1>
+<h1>Application de gestion de services</h1>
 
-<div class="row card">
+<?php if(!$CURRENT_EMAIL): ?>
+<div class="card">
   <form method="post">
-    <label>Votre email (login bricolé): <input name="mail" value="<?php echo htmlspecialchars($CURRENT_EMAIL??''); ?>"></label>
-    <button class="btn">Se connecter</button>
+    <label>Email: <input name="mail"></label>
+    <label>Mot de passe: <input type="password" name="password"></label>
+    <button>Se connecter</button>
   </form>
-  <div>Rôle: <b><?php echo role(); ?></b></div>
 </div>
+<?php else: ?>
+<div class="card">
+  Connecté en tant que: <b><?php echo htmlspecialchars($CURRENT_EMAIL); ?></b> (<?php echo role(); ?>)
+  <form method="post"><button name="logout">Déconnexion</button></form>
+</div>
+<?php endif; ?>
 
+<!-- Rest of the interface: services, bookings, admin forms -->
 <div class="row">
-  <div class="card" style="flex:1">
+  <div class="card">
     <h3>Services</h3>
     <div id="svc"></div>
   </div>
-  <div class="card" style="flex:1">
+  <div class="card">
     <h3>Réserver</h3>
+    <?php if($CURRENT_EMAIL && role()!=='anon'): ?>
     <form method="post">
       <input type="hidden" name="act" value="book">
-      <label>Service ID: <input name="sid" value="1"></label><br>
-      <label>Crenau: <input name="slot" placeholder="2025-10-20 09:00"></label><br>
-      <button class="btn">Réserver</button>
+      <label>Service ID: <input name="sid"></label>
+      <label>Créneau: <input name="slot" placeholder="YYYY-MM-DD HH:MM"></label>
+      <button>Réserver</button>
     </form>
+    <?php endif; ?>
   </div>
-  <div class="card" style="flex:1">
+  <div class="card">
     <h3>Mes réservations</h3>
     <div id="bk"></div>
   </div>
 </div>
 
+<?php if(role()==='admin'): ?>
 <div class="card">
-  <h3>Admin (pas sécurisé)</h3>
-  <form method="post" class="row">
+  <h3>Admin</h3>
+  <form method="post">
     <input type="hidden" name="act" value="addservice">
     <input name="name" placeholder="Nom du service">
     <select name="type"><option>room</option><option>equipment</option><option>autre</option></select>
-    <button class="btn">Ajouter service</button>
+    <button>Ajouter service</button>
   </form>
 
-  <form method="post" class="row">
+  <form method="post">
     <input type="hidden" name="act" value="addslot">
     <input name="sid" placeholder="Service ID">
     <input name="slot" placeholder="YYYY-MM-DD HH:MM">
-    <button class="btn">Ajouter créneau</button>
-  </form>
-
-  <form method="post" class="row">
-    <input type="hidden" name="act" value="cancel">
-    <input name="bid" placeholder="Booking ID">
-    <button class="btn danger">Annuler réservation</button>
+    <button>Ajouter créneau</button>
   </form>
 </div>
+<?php endif; ?>
 
 <script>
-  window.addEventListener('load', function(){
-    window.refreshData(); 
-  });
+window.addEventListener('load', function(){ window.refreshData(); });
 </script>
 </body>
 </html>
