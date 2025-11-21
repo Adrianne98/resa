@@ -10,22 +10,19 @@
 
 <h1>Application de gestion de services</h1>
 
-<?php if(!$CURRENT_EMAIL): ?>
+
 <div class="card">
   <form method="post">
     <label>Email: <input name="mail"></label>
-    <label>Mot de passe: <input type="password" name="password"></label>
+    <label>Mot de passe: <input type="password" name="password" value=""></label>
     <button>Se connecter</button>
-  </form>
+    <method="post"><button name="logout">Déconnexion</button>
 </div>
-<?php else: ?>
 <div class="card">
-  Connecté en tant que: <b><?php echo htmlspecialchars($CURRENT_EMAIL); ?></b> (<?php echo role(); ?>)
-  <form method="post"><button name="logout">Déconnexion</button></form>
+  Connecté en tant que:(<?php echo role(); ?>)
+  
 </div>
-<?php endif; ?>
-
-<!-- Rest of the interface: services, bookings, admin forms -->
+<!-- gestion: services, bookings, admin forms -->
 <div class="row">
   <div class="card">
     <h3>Services</h3>
@@ -33,14 +30,12 @@
   </div>
   <div class="card">
     <h3>Réserver</h3>
-    <?php if($CURRENT_EMAIL && role()!=='anon'): ?>
     <form method="post">
       <input type="hidden" name="act" value="book">
       <label>Service ID: <input name="sid"></label>
       <label>Créneau: <input name="slot" placeholder="YYYY-MM-DD HH:MM"></label>
       <button>Réserver</button>
     </form>
-    <?php endif; ?>
   </div>
   <div class="card">
     <h3>Mes réservations</h3>
@@ -48,7 +43,6 @@
   </div>
 </div>
 
-<?php if(role()==='admin'): ?>
 <div class="card">
   <h3>Admin</h3>
   <form method="post">
@@ -65,7 +59,6 @@
     <button>Ajouter créneau</button>
   </form>
 </div>
-<?php endif; ?>
 
 <script>
 window.addEventListener('load', function(){ window.refreshData(); });

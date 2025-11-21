@@ -25,7 +25,7 @@ function role(){
     foreach($DB['users'] as $u){
         if($u['email'] === $CURRENT_EMAIL) return $u['role'];
     }
-    return 'anon';
+    return 'Connecter';
 }
 
 // Sauvegarde DB
